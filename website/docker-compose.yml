@@ -1,5 +1,5 @@
 services:
-  node:
+  node_adl:
     build:
       context: .
       dockerfile: ./Development

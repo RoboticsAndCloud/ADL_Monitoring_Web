@@ -45,22 +45,58 @@ const ADLboard = () => {
           "key": "Read",
           "data": [
             {
-              "key": new Date("2020-02-17T08:00:00.000Z"),
+              "key": new Date("2020-02-17 08:00:00.000"),
               "id": "0",
               "data": 7
             },
             {
-              "key": new Date("2020-02-17T08:05:00.000Z"),
+              "key": new Date("2020-02-17 08:05:00.000"),
               "id": "1",
               "data": 7
             },
             {
-              "key": new Date("2020-02-17T08:10:00.000Z"),
+              "key": new Date("2020-02-17 08:10:00.000"),
               "id": "2",
               "data": 7
             },
             {
-              "key": new Date("2020-02-17T08:15:00.000Z"),
+              "key": new Date("2020-02-17 08:15:00.000"),
+              "id": "3",
+              "data": 7
+            },
+            // {
+            //   "key": new Date("2020-02-17 08:15:01.000"),
+            //   "id": "3",
+            //   "data": -1
+            // },
+            // {
+            //   "key": new Date("2020-02-17 08:29:59.000"),
+            //   "id": "3",
+            //   "data": -1
+            // },
+
+            // {
+            //   "key": new Date("2020-02-17 08:30:00.000"),
+            //   "id": "3",
+            //   "data": 7
+            // },
+            // {
+            //   "key": new Date("2020-02-17 08:35:07"),
+            //   "id": "3",
+            //   "data": 7
+            // }
+          ]
+        },
+        {
+          "key": "Read2",
+          "data": [
+            {
+              "key": new Date("2020-02-17 08:30:00.000"),
+              "id": "3",
+              "data": 7
+            },
+            {
+              "key": new Date("2020-02-17 08:35:07"),
               "id": "3",
               "data": 7
             }
@@ -70,22 +106,22 @@ const ADLboard = () => {
           "key": "Kitchen_Activity",
           "data": [
             {
-              "key": new Date("2020-02-17T08:16:00.000Z"),
+              "key": new Date("2020-02-17 08:16:00.000"),
               "id": "0",
               "data": 4
             },
             {
-              "key": new Date("2020-02-17T08:18:00.000Z"),
+              "key": new Date("2020-02-17 08:18:00.000"),
               "id": "1",
               "data": 4
             },
             {
-              "key": new Date("2020-02-17T08:19:00.000Z"),
+              "key": new Date("2020-02-17 08:19:00.000"),
               "id": "2",
               "data": 4
             },
             {
-              "key": new Date("2020-02-17T08:20:00.000Z"),
+              "key": new Date("2020-02-17 08:20:00.000"),
               "id": "3",
               "data": 4
             }
@@ -95,22 +131,22 @@ const ADLboard = () => {
           "key": "Bathroom",
           "data": [
             {
-              "key": new Date("2020-02-17T08:21:00.000Z"),
+              "key": new Date("2020-02-17 08:21:00.000"),
               "id": "0",
               "data": 8
             },
             {
-              "key": new Date("2020-02-17T08:21:30.000Z"),
+              "key": new Date("2020-02-17 08:21:30.000"),
               "id": "1",
               "data": 8
             },
             {
-              "key": new Date("2020-02-17T08:22:00.000Z"),
+              "key": new Date("2020-02-17 08:22:00.000"),
               "id": "2",
               "data": 8
             },
             {
-              "key": new Date("2020-02-17T08:23:00.000Z"),
+              "key": new Date("2020-02-17 08:23:00.000"),
               "id": "3",
               "data": 8
             }
@@ -151,34 +187,6 @@ const ADLboard = () => {
   }
 
   export default ADLboard
-
-  // import React from "react";
-  // import { render } from "react-dom";
-  
-  // import "./style.css";
-  
-  // import Chart from "./Chart";
-  
-  // function App() {
-  //   return (
-  //     <div
-  //       style={{
-  //         width: "100vw",
-  //         height: "100vh",
-  //         padding: "40px",
-  //         boxSizing: "border-box",
-  //         display: "flex",
-  //         flexDirection: "column",
-  //         justifyContent: "center",
-  //         alignItems: "center"
-  //       }}
-  //     >
-  //       <Chart />
-  //     </div>
-  //   );
-  // }
-  
-  // render(<App />, document.getElementById("root"));
 
 export const getServerSideProps = authorizeRequest(async (ctx: NextPageContext) => {
     return { props: {} }
