@@ -1,0 +1,15 @@
+{
+  "extends": "@tsconfig/node16/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "../",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@commands/*": ["commands/*"],
+      "@util/*": ["util/*"],
+      "@/*": ["commands/*"]
+    }
+  },
+  "include": ["../**/*.ts", "../**/*.tsx"],
+  "exclude": ["../node_modules"]
+}

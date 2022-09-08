@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  @apply h-full
+}
+
+html {
+  @apply bg-gray-100
+}
+
+#__next, body {
+  @apply h-full
+}
