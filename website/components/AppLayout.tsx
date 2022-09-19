@@ -34,7 +34,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
   const navigation = [
     { name: 'Dashboard', href: '/', icon: HomeIcon },
     { name: 'Activities', href: '/questions', icon: QuestionMarkCircleIcon },
-    { name: 'Teams', href: '/teams', icon: UsersIcon },
+    { name: 'Care recipients', href: '/teams', icon: UsersIcon },
     { name: 'ADL_Board', href: '/adlboard', icon: PlayIcon },
   ]
 
