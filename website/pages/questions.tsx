@@ -15,6 +15,7 @@ interface QuestionsProps {
     image_source?: string
     sound_source?: string
     motion_source?: string
+    object_source?: string
     comment_source?: string
   }[];
 }
@@ -26,6 +27,10 @@ const Questions: NextPage<QuestionsProps> = ({ questions }) => {
     axios.delete(`/api/questions/${id}`).then(() => {
       refresh()
     })
+  }
+
+  const showImage = (id: number) => {
+    window.open('https://images.unsplash.com/photo-1556911220-bff31c812dba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2768&q=80')
   }
 
   return <AppLayout>
@@ -69,6 +74,12 @@ const Questions: NextPage<QuestionsProps> = ({ questions }) => {
                   >
                     Motion
                   </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Object
+                  </th>
 
                   <th scope="col" className="relative px-6 py-3">
                     <span className="sr-only">Actions</span>
@@ -80,9 +91,11 @@ const Questions: NextPage<QuestionsProps> = ({ questions }) => {
                   <tr key={question.id} className={questionIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.activity}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.time}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.image_source}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"> <a id="imageLink" href="#" onClick={ ()=> showImage(1)} >{question.image_source?.split(":")[0]} </a></td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.sound_source}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.motion_source}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.object_source}</td>
+
 
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <UpdateQuestion {...question} />
@@ -118,7 +131,8 @@ export const getServerSideProps = authorizeRequest(async () => {
       time: true,
       image_source: true,
       sound_source: true,
-      motion_source: true
+      motion_source: true,
+      object_source: true
     }
   })
   /**questions = JSON.parse(JSON.stringify(questions)) */

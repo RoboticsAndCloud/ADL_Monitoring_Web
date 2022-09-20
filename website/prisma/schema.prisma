@@ -41,6 +41,7 @@ model adl_activity_data {
   image_source   String?
   sound_source   String?
   motion_source   String?
+  object_source   String?
   comment_source   String?
 
   @@index([activity])
