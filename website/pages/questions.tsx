@@ -55,8 +55,21 @@ const Questions: NextPage<QuestionsProps> = ({ questions }) => {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Image_link
+                    Location
                   </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Sound
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Motion
+                  </th>
+
                   <th scope="col" className="relative px-6 py-3">
                     <span className="sr-only">Actions</span>
                   </th>
@@ -68,6 +81,9 @@ const Questions: NextPage<QuestionsProps> = ({ questions }) => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.activity}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.time}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.image_source}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.sound_source}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.motion_source}</td>
+
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <UpdateQuestion {...question} />
                       <button onClick={() => deleteQuestion(question.id)} className="ml-1 text-red-600 hover:text-indigo-900">
@@ -87,6 +103,12 @@ const Questions: NextPage<QuestionsProps> = ({ questions }) => {
 
 export const getServerSideProps = authorizeRequest(async () => {
   let questions = await prisma.adl_activity_data.findMany({
+    where: {
+      time: {
+        gte: new Date('2009-12-11'),
+        lte: new Date('2009-12-12')
+      }
+    },
     orderBy: {
         id: 'asc'
     },
