@@ -6,6 +6,9 @@ import CreateQuestion from '@components/CreateQuestion';
 import axios from 'axios';
 import { useRefreshProps } from '@util/routerUtil';
 import UpdateQuestion from '@components/UpdateQuestion';
+import { cursorTo } from 'readline';
+
+import { DOMAttributes } from "react";
 
 interface QuestionsProps {
   questions: {
@@ -29,8 +32,23 @@ const Questions: NextPage<QuestionsProps> = ({ questions }) => {
     })
   }
 
-  const showImage = (id: number) => {
-    window.open('https://images.unsplash.com/photo-1556911220-bff31c812dba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2768&q=80')
+  const showImage = (cur_time: string) => {
+
+    // window.open('/image_sample/image0.jpg')
+    // ('%Y%m%d%hh%M%ss')
+    cur_time=cur_time.replaceAll('-', '')
+    cur_time=cur_time.replaceAll('T', '')
+    cur_time=cur_time.replaceAll(':', '')
+    cur_time=cur_time.replaceAll('.000Z', '')
+
+
+    var path = '/image/' + cur_time + '/image1.jpg'
+
+    window.open(path)
+
+
+    // window.open('https://images.unsplash.com/photo-1556911220-bff31c812dba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2768&q=80')
+
   }
 
   return <AppLayout>
@@ -91,7 +109,9 @@ const Questions: NextPage<QuestionsProps> = ({ questions }) => {
                   <tr key={question.id} className={questionIdx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.activity}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.time}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"> <a id="imageLink" href="#" onClick={ ()=> showImage(1)} >{question.image_source?.split(":")[0]} </a></td>
+                    {/* <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"> <a id="imageLink" href="#" onClick={ ()=> showImage(question.time)}>{question.image_source?.split(":")[0]} </a></td> */}
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-600 hover:underline"> <a id="imageLink" href="#" onClick={ ()=> showImage(question.time)}>{question.image_source?.split(":")[0]} </a></td>
+
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.sound_source}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.motion_source}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{question.object_source}</td>
@@ -118,8 +138,11 @@ export const getServerSideProps = authorizeRequest(async () => {
   let questions = await prisma.adl_activity_data.findMany({
     where: {
       time: {
-        gte: new Date('2009-12-11'),
-        lte: new Date('2009-12-12')
+        // gte: new Date('2009-12-11'),
+        // lte: new Date('2009-12-12')
+
+        gte: new Date('2022-09-11'),
+        lte: new Date('2022-10-12')
       }
     },
     orderBy: {
@@ -150,3 +173,6 @@ export const getServerSideProps = authorizeRequest(async () => {
 
 
 export default Questions
+
+// display the images /home/ascc/LF_Workspace/Bayes_model/Product_ADL/ADL_HMM_BAYES/ascc_data/image/20220925172418/
+// https://flowbite.com/docs/components/tables/
