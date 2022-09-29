@@ -138,11 +138,11 @@ export const getServerSideProps = authorizeRequest(async () => {
   let questions = await prisma.adl_activity_data.findMany({
     where: {
       time: {
-        // gte: new Date('2009-12-11'),
-        // lte: new Date('2009-12-12')
+        gte: new Date('2009-12-11'),
+        lte: new Date('2009-12-12')
 
-        gte: new Date('2022-09-11'),
-        lte: new Date('2022-10-12')
+        // gte: new Date('2022-09-11'),
+        // lte: new Date('2022-10-12')
       }
     },
     orderBy: {
