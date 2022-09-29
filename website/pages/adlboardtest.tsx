@@ -391,6 +391,14 @@ const ACTIVITY_SLEEP = 'Sleep'
 
       if(activity_data.has(question.activity)) {
 
+
+        let tmp_dict = activity_data.get(pre_activity)
+        let t = new Date(JSON.stringify(question.time).replace("T", " ").replace('Z', ''))
+        let new_obj = {'key': t, 'id':(tmp_dict["data"].length+1).toString(), 'data': pre_obj.data}
+        tmp_dict["data"].push(new_obj)
+        activity_data.set(pre_activity, tmp_dict)
+
+
         let tmp = activity_uniq_number.get(question.activity)! + 1
         activity_uniq_number.set(question.activity, tmp)
         pre_activity = question.activity + activity_uniq_number.get(question.activity)
@@ -401,10 +409,10 @@ const ACTIVITY_SLEEP = 'Sleep'
         }
         activity_data.set(pre_activity, a_dict)
 
-        let tmp_dict = activity_data.get(pre_activity)
+        tmp_dict = activity_data.get(pre_activity)
       
-        let t = new Date(JSON.stringify(question.time).replace("T", " ").replace('Z', ''))
-        let new_obj = {'key': t, 'id':(tmp_dict["data"].length+1).toString(), 'data': ACTIVITY_DICT_INDEX.get(question.activity)!}
+        t = new Date(JSON.stringify(question.time).replace("T", " ").replace('Z', ''))
+        new_obj = {'key': t, 'id':(tmp_dict["data"].length+1).toString(), 'data': ACTIVITY_DICT_INDEX.get(question.activity)!}
         tmp_dict["data"].push(new_obj)
         activity_data.set(pre_activity, tmp_dict)
 
