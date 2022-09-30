@@ -241,7 +241,7 @@ interface QuestionsProps {
   }[];
 }
 
-const ADLLeaderboardTest: NextPage<QuestionsProps> = ({ questions }) => {
+const ADLLeaderboard: NextPage<QuestionsProps> = ({ questions }) => {
   const { refresh } = useRefreshProps()
 
   const deleteQuestion = (id: number) => {
@@ -680,11 +680,11 @@ export const getServerSideProps = authorizeRequest(async () => {
   let questions = await prisma.adl_activity_data.findMany({
     where: {
       time: {
-        gte: new Date('2009-12-11'),
-        lte: new Date('2009-12-12')
+        // gte: new Date('2009-12-11'),
+        // lte: new Date('2009-12-12')
 
-        // gte: new Date('2022-09-11'),
-        // lte: new Date('2022-09-26')
+        gte: new Date('2022-09-11'),
+        lte: new Date('2022-09-26')
       }
     },
     orderBy: {
@@ -718,4 +718,4 @@ export const getServerSideProps = authorizeRequest(async () => {
 // display the images /home/ascc/LF_Workspace/Bayes_model/Product_ADL/ADL_HMM_BAYES/ascc_data/image/20220925172418/
 // https://flowbite.com/docs/components/tables/
 
-export default ADLLeaderboardTest
+export default ADLLeaderboard
