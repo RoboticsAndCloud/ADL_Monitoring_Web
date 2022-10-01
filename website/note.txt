@@ -1,0 +1,19 @@
+
+https://stackblitz.com/edit/datetime-react-app?file=src%2FApp.js
+
+https://www.npmjs.com/package/react-calendar
+
+
+npm install react-datepicker --save
+npm install moment --save
+
+
+
+ npm install react-calendar
+
+
+ react-datetime-picker
+
+ npm install react-time-picker
+
+ npm install react-cookies --save

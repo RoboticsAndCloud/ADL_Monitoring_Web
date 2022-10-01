@@ -9,6 +9,8 @@ import authorizeRequest from '@middlewares/authorizeRequest'
 import io from 'socket.io-client'
 import { useEffect, useState } from 'react'
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/react/solid'
+import { GetServerSidePropsContext } from 'next'
+
 // import * as format from 'data-fns/format'
 
 import dynamic from 'next/dynamic';
@@ -676,14 +678,19 @@ const ACTIVITY_SLEEP = 'Sleep'
   // </AppLayout>
 }
 
-export const getServerSideProps = authorizeRequest(async () => {
+export const getServerSideProps = authorizeRequest(async ({ req, res }: GetServerSidePropsContext) => {
+  var cookie_date_str = req.cookies.cookie_date_str 
+  if(cookie_date_str == null) {
+    cookie_date_str = "2022-09-25"
+  }
+  cookie_date_str = "2022-09-25"
   let questions = await prisma.adl_activity_data.findMany({
     where: {
       time: {
         // gte: new Date('2009-12-11'),
         // lte: new Date('2009-12-12')
 
-        gte: new Date('2022-09-11'),
+        gte: new Date(cookie_date_str),
         lte: new Date('2022-09-26')
       }
     },

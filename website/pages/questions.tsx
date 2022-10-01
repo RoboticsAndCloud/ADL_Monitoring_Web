@@ -6,9 +6,22 @@ import CreateQuestion from '@components/CreateQuestion';
 import axios from 'axios';
 import { useRefreshProps } from '@util/routerUtil';
 import UpdateQuestion from '@components/UpdateQuestion';
+import { GetServerSidePropsContext } from 'next'
+
 import { cursorTo } from 'readline';
 
-import { DOMAttributes } from "react";
+import { DOMAttributes, useContext, useEffect } from "react";
+
+import cookie from "react-cookies"
+// import {useCookies} from "react-cookies"
+
+
+import { useState } from 'react'
+import DatePicker from "react-datepicker";
+import { createGlobalState } from 'react-use';
+import "react-datepicker/dist/react-datepicker.css";
+import { request } from 'http';
+// Date picker https://www.geeksforgeeks.org/how-to-add-simple-datepicker-in-next-js/
 
 interface QuestionsProps {
   questions: {
@@ -23,6 +36,49 @@ interface QuestionsProps {
   }[];
 }
 
+let inOneday = new Date(new Date().getTime() + 24 * 3600 * 1000);//一天
+
+var in_ten_mins = new Date(new Date().getTime()+600*1000)
+var tomorrow = new Date()
+tomorrow.setDate(tomorrow.getDate()+1)
+
+// var date_str = '2009-12-11'
+
+// var date_str = new Date().toJSON().split('T')[0]
+// cookie.remove("cookie_date_str")
+var date_str = cookie.load("cookie_date_str")
+
+if(date_str == null){
+  date_str = new Date().toJSON().split('T')[0]
+  date_str = '2020-12-12'
+  cookie.save("cookie_date_str", date_str,{path:"/", expires:tomorrow});
+} else {
+  // date_str = JSON.stringify(date_str)
+  // date_str = '2008-12-11'
+  // date_str = '2020-12-11'
+  // cookie.save("cookie_date_str", date_str,{path:"/", expires:tomorrow});
+}
+
+
+
+
+
+// const isBrowser = () => typeof window !== "undefined"
+// var session_date_str = sessionStorage.getItem("date_str")
+  
+// if (session_date_str === null) {
+//   session_date_str = "2022-09-11"
+// }
+
+
+
+
+// function setDataFun(startDate) {
+  
+//   date_str = startDate.toJSON().split('T')[0]
+//   return date_str
+// }
+
 const Questions: NextPage<QuestionsProps> = ({ questions }) => {
   const { refresh } = useRefreshProps()
 
@@ -32,26 +88,93 @@ const Questions: NextPage<QuestionsProps> = ({ questions }) => {
     })
   }
 
-  const showImage = (cur_time: string) => {
 
+
+  const showImage = (cur_time: string) => {
     // window.open('/image_sample/image0.jpg')
     // ('%Y%m%d%hh%M%ss')
     cur_time=cur_time.replaceAll('-', '')
     cur_time=cur_time.replaceAll('T', '')
     cur_time=cur_time.replaceAll(':', '')
     cur_time=cur_time.replaceAll('.000Z', '')
-
-
     var path = '/image/' + cur_time + '/image1.jpg'
-
     window.open(path)
-
-
-    // window.open('https://images.unsplash.com/photo-1556911220-bff31c812dba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2768&q=80')
-
   }
 
+  const [startDate, setStartDate] = useState(new Date());
+
+  // useEffect(()=>{
+  //   const fetchData = async () => {
+  //     let questions = await prisma.adl_activity_data.findMany({
+  //       where: {
+  //         time: {
+  //           // gte: new Date('2009-12-11'),
+  //           // lte: new Date('2009-12-12')
+  //           // startDate.toJSON().split('T')[0]
+  //           // gte: new Date('2022-09-11'),
+  //           // lte: new Date('2022-10-12')
+  //           gte: new Date(date_str),
+  //           lte: new Date('2022-10-12')
+  //         }
+  //       },
+  //       orderBy: {
+  //           id: 'asc'
+  //       },
+  //       select: {
+  //         id: true,
+  //         activity: true,
+  //         time: true,
+  //         image_source: true,
+  //         sound_source: true,
+  //         motion_source: true,
+  //         object_source: true
+  //       }
+  //     })
+  //     /**questions = JSON.parse(JSON.stringify(questions)) */
+  //     questions = JSON.parse(JSON.stringify(questions, (key, value) =>
+  //               typeof value === 'bigint'
+  //                   ? value.toString()
+  //                   : value // return everything else unchanged
+  //           ));
+  //     return {
+  //       props: {
+  //         questions
+  //       }
+  //     }
+  //   };
+  //   fetchData();
+
+
+  // }, [startDate]);
+
+
+
+  // const [setCookie] = useCookies(["cookie_date_str"])
+//   useEffect(() => {
+//     // if (cookie.load("cookie_date_str")) {
+//     //   date_str = cookie.load("cookie_date_str")
+//     //   // date_str = '2009-12-10'
+
+//     // } else {
+//     //   date_str = '2009-12-11'
+//     // }
+//     cookie.save("cookie_date_str", date_str,{path:"/", expires:inOneday});
+// }, [startDate]);
+
+
+
   return <AppLayout>
+  <div>
+    <h4>  Date:</h4>
+    <DatePicker selected={startDate} onChange=
+            {(date) => {setStartDate(date); date_str = date.toJSON().split('T')[0];window.sessionStorage.setItem("date_str", date_str);
+            cookie.save("cookie_date_str", date_str,{path:"/", expires:tomorrow});
+            refresh()}} />
+  </div>
+  <div>
+  </div>
+
+
     <div className="flex justify-end">
       <CreateQuestion />
     </div>
@@ -134,15 +257,24 @@ const Questions: NextPage<QuestionsProps> = ({ questions }) => {
   </AppLayout>
 }
 
-export const getServerSideProps = authorizeRequest(async () => {
+
+
+export const getServerSideProps = authorizeRequest(async ({ req, res }: GetServerSidePropsContext) => {
+
+  var cookie_date_str = req.cookies.cookie_date_str 
+  console.log("in getServerSideProps cookie_date_str:", cookie_date_str)
+  console.log("cookie_date_str from server:", cookie_date_str.length)
+
   let questions = await prisma.adl_activity_data.findMany({
     where: {
       time: {
-        gte: new Date('2009-12-11'),
-        lte: new Date('2009-12-12')
-
+        // gte: new Date('2009-12-11'),
+        // lte: new Date('2009-12-12')
+        // startDate.toJSON().split('T')[0]
         // gte: new Date('2022-09-11'),
         // lte: new Date('2022-10-12')
+        gte: new Date(cookie_date_str),
+        lte: new Date('2022-10-12')
       }
     },
     orderBy: {
