@@ -684,6 +684,8 @@ export const getServerSideProps = authorizeRequest(async ({ req, res }: GetServe
     cookie_date_str = "2022-09-25"
   }
   cookie_date_str = "2022-09-25"
+  let next_day = new Date(cookie_date_str)
+  next_day.setDate(next_day.getDate()+1)
   let questions = await prisma.adl_activity_data.findMany({
     where: {
       time: {
@@ -691,7 +693,7 @@ export const getServerSideProps = authorizeRequest(async ({ req, res }: GetServe
         // lte: new Date('2009-12-12')
 
         gte: new Date(cookie_date_str),
-        lte: new Date('2022-09-26')
+        lte: next_day
       }
     },
     orderBy: {

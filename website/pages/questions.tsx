@@ -60,25 +60,6 @@ if(date_str == null){
 }
 
 
-
-
-
-// const isBrowser = () => typeof window !== "undefined"
-// var session_date_str = sessionStorage.getItem("date_str")
-  
-// if (session_date_str === null) {
-//   session_date_str = "2022-09-11"
-// }
-
-
-
-
-// function setDataFun(startDate) {
-  
-//   date_str = startDate.toJSON().split('T')[0]
-//   return date_str
-// }
-
 const Questions: NextPage<QuestionsProps> = ({ questions }) => {
   const { refresh } = useRefreshProps()
 
@@ -102,51 +83,6 @@ const Questions: NextPage<QuestionsProps> = ({ questions }) => {
   }
 
   const [startDate, setStartDate] = useState(new Date());
-
-  // useEffect(()=>{
-  //   const fetchData = async () => {
-  //     let questions = await prisma.adl_activity_data.findMany({
-  //       where: {
-  //         time: {
-  //           // gte: new Date('2009-12-11'),
-  //           // lte: new Date('2009-12-12')
-  //           // startDate.toJSON().split('T')[0]
-  //           // gte: new Date('2022-09-11'),
-  //           // lte: new Date('2022-10-12')
-  //           gte: new Date(date_str),
-  //           lte: new Date('2022-10-12')
-  //         }
-  //       },
-  //       orderBy: {
-  //           id: 'asc'
-  //       },
-  //       select: {
-  //         id: true,
-  //         activity: true,
-  //         time: true,
-  //         image_source: true,
-  //         sound_source: true,
-  //         motion_source: true,
-  //         object_source: true
-  //       }
-  //     })
-  //     /**questions = JSON.parse(JSON.stringify(questions)) */
-  //     questions = JSON.parse(JSON.stringify(questions, (key, value) =>
-  //               typeof value === 'bigint'
-  //                   ? value.toString()
-  //                   : value // return everything else unchanged
-  //           ));
-  //     return {
-  //       props: {
-  //         questions
-  //       }
-  //     }
-  //   };
-  //   fetchData();
-
-
-  // }, [startDate]);
-
 
 
   // const [setCookie] = useCookies(["cookie_date_str"])
@@ -261,9 +197,11 @@ const Questions: NextPage<QuestionsProps> = ({ questions }) => {
 
 export const getServerSideProps = authorizeRequest(async ({ req, res }: GetServerSidePropsContext) => {
 
-  var cookie_date_str = req.cookies.cookie_date_str 
+  let cookie_date_str = req.cookies.cookie_date_str 
   console.log("in getServerSideProps cookie_date_str:", cookie_date_str)
   console.log("cookie_date_str from server:", cookie_date_str.length)
+  let next_day = new Date(cookie_date_str)
+  next_day.setDate(next_day.getDate()+1)
 
   let questions = await prisma.adl_activity_data.findMany({
     where: {
@@ -274,7 +212,7 @@ export const getServerSideProps = authorizeRequest(async ({ req, res }: GetServe
         // gte: new Date('2022-09-11'),
         // lte: new Date('2022-10-12')
         gte: new Date(cookie_date_str),
-        lte: new Date('2022-10-12')
+        lte: next_day
       }
     },
     orderBy: {
