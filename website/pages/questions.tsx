@@ -202,6 +202,8 @@ export const getServerSideProps = authorizeRequest(async ({ req, res }: GetServe
   console.log("cookie_date_str from server:", cookie_date_str.length)
   let next_day = new Date(cookie_date_str)
   next_day.setDate(next_day.getDate()+1)
+  let cookie_day = new Date(cookie_date_str)
+  cookie_day.setDate(cookie_day.getDate()-2)
 
   let questions = await prisma.adl_activity_data.findMany({
     where: {
@@ -211,7 +213,7 @@ export const getServerSideProps = authorizeRequest(async ({ req, res }: GetServe
         // startDate.toJSON().split('T')[0]
         // gte: new Date('2022-09-11'),
         // lte: new Date('2022-10-12')
-        gte: new Date(cookie_date_str),
+        gte: cookie_day,
         lte: next_day
       }
     },
