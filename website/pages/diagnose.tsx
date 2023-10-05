@@ -20,16 +20,21 @@ interface Values {
     correctAnswer: string,
 }
 
-interface Props {
+interface BayesResultProps {
     id: number
-    content: string
-    choices?: string
-    correctAnswer?: string
+    activity: string
+    prob: number
 }
+
+
 
 const DiagnoseMethod = ({ id, content, choices, correctAnswer}: Props) => {
     const [open, setOpen] = useState(true)
     const { refresh } = useRefreshProps()
+
+    const AIDiagnose = () => {
+        setOpen(!open);
+    }
 
     const cancelButtonRef = useRef(null)
 
@@ -41,8 +46,15 @@ const DiagnoseMethod = ({ id, content, choices, correctAnswer}: Props) => {
             })
     }
 
-    // return <>
+    const [mock_bayes_result, setbayes_result] = useState<BayesResultProps[]>([
+        {id: 1, activity: "Kitchen_Activity", prob:0.9},
+        {id: 1, activity: "Read", prob:0.01},
+        {id: 1, activity: "TV", prob:0.01},
+    ]);
 
+  
+
+    const bayes_result : BayesResultProps = {id: 1, activity: "Kitchen_Activity", prob:0.9}
 
 
     return   <AppLayout>
@@ -80,14 +92,13 @@ const DiagnoseMethod = ({ id, content, choices, correctAnswer}: Props) => {
 
 
         <div>
-            <button className="mt-4 mb-2 w-[100%] bg-indigo-700 font-semibold text-white py-1 px-1 rounded text-left"> AI Diagnose (Click to Run)</button>
+            <button className="mt-4 mb-2 w-[100%] bg-indigo-700 font-semibold text-white py-1 px-1 rounded text-left" onClick={() => AIDiagnose()}> AI Diagnose (Click to Run)</button>
 
 {/* 
             <p> Objects: Cup(90%) </p>
             <p> Sound: Microwave(90%) </p>
             <p> Motion: Stand(95%) </p>  */}
-            <p className={`${1}? "bg-blue-400":"bg-red-400"`}>abc</p>
-            <p className={"bg-red-400"}>abc</p>
+            {/* <p className={{open} ? 'bg-blue-400': 'bg-red-400'}>abc</p> */}
 
             <div className="flex flex-row  justify-center items-center">
                 <table className="table-auto text-left border text-sm ">
@@ -132,31 +143,41 @@ const DiagnoseMethod = ({ id, content, choices, correctAnswer}: Props) => {
 
         <div>
             <button className="mt-2 mb-1 w-[100%] bg-indigo-700 font-semibold text-white py-1 px-1 rounded text-left"> Bayesian Diagnose (Click to Run)</button>
-            <span className="bg-sky-400">Baysian Process:</span>
+            <span className="bg-sky-400" >Baysian Process:</span>
+            <div className='flex  justify-center items-center'>
             <img src="https://www.freecodecamp.org/news/content/images/2020/07/Screenshot-2020-07-19-at-22.58.48.png" />
-
+            </div>
             <span className="bg-sky-400">Baysian Result (Top3):</span>
             <div className="flex flex-row  justify-center items-center">
                 <table className="table-auto text-left border text-sm ">
                 <thead>
                 <tr>
-                    <th className="p-2 bg-indigo-400 border-b border-l">Activity</th>
-                    <th className="p-2 bg-indigo-400 border-b border-l">Probability</th>
+                    <th className="p-4 bg-indigo-400 border-b border-l">Activity</th>
+                    <th className="p-4 bg-indigo-400 border-b border-l">Probability</th>
                 </tr>
                 </thead>
                 <tbody>
+                {mock_bayes_result.map((bayes_result) => (
+                    <tr className="odd:bg-gray-200 hover:!bg-stone-200">
+                        <td className="p-4 border-b border-l">{bayes_result.activity}</td>
+                        <td className="p-4 border-b border-l">{bayes_result.prob}</td>
+                    </tr>
+                ))
+                }
+                {/* 
                 <tr className="odd:bg-red-400 hover:!bg-stone-200">
-                    <td className="p-2 border-b border-l">Kitchen_Activity</td>
-                    <td className="p-2 border-b border-l">90%</td>
+                    <td className="p-4 border-b border-l">{bayes_result.activity}</td>
+                    <td className="p-4 border-b border-l">{bayes_result.prob}</td>
                 </tr>
                 <tr className="odd:bg-gray-200 hover:!bg-stone-200">
-                    <td className="p-2 border-b border-l">Reading</td>
-                    <td className="p-2 border-b border-l">0.8</td>
+                    <td className="p-4 border-b border-l">Reading</td>
+                    <td className="p-4 border-b border-l">0.8</td>
                 </tr>
                 <tr className="odd:bg-gray-200 hover:!bg-stone-200">
-                    <td className="p-2 border-b border-l">Watch TV</td>
+                    <td className="p-4 border-b border-l">Watch TV</td>
                     <td className="p-4 border-b border-l">0.1</td>
-                </tr>
+                </tr> */}
+
                 </tbody>
                 </table>
             </div>

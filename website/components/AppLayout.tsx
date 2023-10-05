@@ -9,6 +9,7 @@ import {
   UsersIcon,
   PlayIcon,
   XIcon,
+  HeartIcon,
 } from '@heroicons/react/outline'
 import Link from 'next/link'
 import { useUser } from '@auth0/nextjs-auth0'
@@ -36,6 +37,7 @@ const AppLayout = ({ children }: AppLayoutProps) => {
     { name: 'Activities', href: '/questions', icon: QuestionMarkCircleIcon },
     { name: 'Care recipients', href: '/teams', icon: UsersIcon },
     { name: 'ADL_Board', href: '/adlboard', icon: PlayIcon },
+    { name: 'AI_Diagnose', href: '/diagnose', icon: HeartIcon },
   ]
 
   // get navigation element by href
