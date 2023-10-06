@@ -7,6 +7,9 @@ import * as Yup from 'yup';
 import axios from 'axios'
 import { useRefreshProps } from '@util/routerUtil';
 import AppLayout from '@components/AppLayout';
+import ImageUpload from '@components/ImageUpload';
+import AudioUpload from '@components/AudioUpload';
+import MotionUpload from '@components/MotionUpload';
 
 const QuestionSchema = Yup.object().shape({
     content: Yup.string().min(1, 'Too short').required('Required'),
@@ -77,15 +80,19 @@ const DiagnoseMethod = ({ id, content, choices, correctAnswer}: Props) => {
         <div className="flex">
             <div className="flex-1 w-32">
                 Image 
-                <img src="/image/20221001113420/image1.jpg" className="h-auto w-40" alt="Image " />
+                <ImageUpload />
+
+                {/* <img src="/image/20221001113420/image1.jpg" className="h-auto w-40" alt="Image " /> */}
             </div>
             <div className="flex-1 w-32">
                 Audio
-                <img src="https://cdna.artstation.com/p/assets/images/images/017/295/280/large/dmitriy-novikov-1.jpg?1555408172" className="h-auto w-40" alt="Image " />
+                <AudioUpload/>
+                {/* <img src="https://cdna.artstation.com/p/assets/images/images/017/295/280/large/dmitriy-novikov-1.jpg?1555408172" className="h-auto w-40" alt="Image " /> */}
             </div>
             <div className="flex-1 w-32">
                 Motion
-                <img src="https://cdna.artstation.com/p/assets/images/images/017/295/280/large/dmitriy-novikov-1.jpg?1555408172" className="h-auto w-40" alt="Image " />
+                <MotionUpload/>
+                {/* <img src="https://cdna.artstation.com/p/assets/images/images/017/295/280/large/dmitriy-novikov-1.jpg?1555408172" className="h-auto w-40" alt="Image " /> */}
             </div>
         </div>
 
