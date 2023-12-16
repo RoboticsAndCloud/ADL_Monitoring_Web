@@ -2,3 +2,6 @@
 ADL Monitoring information
 
 ![](./AI_health1.jpg)
+
+
+![](./Activity.jpg)
