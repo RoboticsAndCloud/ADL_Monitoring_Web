@@ -26,15 +26,34 @@ const UpdateTeam = ({ id, name}: Props) => {
 
     const cancelButtonRef = useRef(null)
 
-    const onSubmit = (values: Values) => {
-        axios.put(`/api/teams/${id}`, values)
-            .then(() => {
-                setOpen(false)
-                refresh()
-            })
+    // const onSubmit = (values: Values) => {
+    //     axios.put(`/api/teams/${id}`, values)
+    //         .then(() => {
+    //             setOpen(false)
+    //             refresh()
+    //         })
 
-        axios.post('/api/actions/team/emitGroupChangeEvent')  
+    //     axios.post('/api/actions/team/emitGroupChangeEvent')  
+    // }
+
+
+    const onSubmit = (values: Values) => {
+        let url: string = `/api/teams/${id}`
+        console.log("=========================", url)
+        fetch(url, {
+            method: 'put',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(values),
+        }).then(() => {
+            setOpen(false)
+            refresh()
+        })
+
+        // axios.post('/api/actions/team/emitGroupChangeEvent')  
     }
+
 
     return <>
 
